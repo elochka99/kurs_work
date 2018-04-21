@@ -1,4 +1,4 @@
-def Dijkstra(N, S, matrix):
+def Dijkstra(N, S, matr):
         valid = [True]*N        
         weight = [1000000]*N
         weight[S] = 0
