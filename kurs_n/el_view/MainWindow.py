@@ -1,0 +1,93 @@
+# -*- coding: utf-8 -*-
+
+# Form implementation generated from reading ui file 'D:\MainWindow.ui'
+#
+# Created by: PyQt5 UI code generator 5.9.2
+#
+# WARNING! All changes made in this file will be lost!
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+class Ui_MainWindow(object):
+    def setupUi(self, MainWindow):
+        MainWindow.setObjectName("MainWindow")
+        MainWindow.resize(640, 480)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(MainWindow.sizePolicy().hasHeightForWidth())
+        MainWindow.setSizePolicy(sizePolicy)
+        MainWindow.setMinimumSize(QtCore.QSize(640, 480))
+        MainWindow.setMaximumSize(QtCore.QSize(640, 480))
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        self.tab = QtWidgets.QTabWidget(self.centralwidget)
+        self.tab.setGeometry(QtCore.QRect(0, 0, 640, 480))
+        self.tab.setMinimumSize(QtCore.QSize(640, 480))
+        self.tab.setMaximumSize(QtCore.QSize(640, 480))
+        self.tab.setObjectName("tab")
+        self.main_index = QtWidgets.QWidget()
+        self.main_index.setObjectName("main_index")
+        self.main_generate = QtWidgets.QPushButton(self.main_index)
+        self.main_generate.setGeometry(QtCore.QRect(30, 130, 231, 23))
+        self.main_generate.setObjectName("main_generate")
+        self.main_index_info = QtWidgets.QTextBrowser(self.main_index)
+        self.main_index_info.setGeometry(QtCore.QRect(305, 10, 321, 431))
+        self.main_index_info.setObjectName("main_index_info")
+        self.size = QtWidgets.QLineEdit(self.main_index)
+        self.size.setGeometry(QtCore.QRect(30, 100, 231, 20))
+        self.size.setObjectName("size")
+        self.label = QtWidgets.QLabel(self.main_index)
+        self.label.setGeometry(QtCore.QRect(30, 80, 231, 16))
+        self.label.setObjectName("label")
+        self.tab.addTab(self.main_index, "")
+        self.main_about_algorithm = QtWidgets.QWidget()
+        self.main_about_algorithm.setObjectName("main_about_algorithm")
+        self.about_algorithm = QtWidgets.QTextBrowser(self.main_about_algorithm)
+        self.about_algorithm.setGeometry(QtCore.QRect(0, 0, 636, 456))
+        self.about_algorithm.setMinimumSize(QtCore.QSize(636, 456))
+        self.about_algorithm.setMaximumSize(QtCore.QSize(636, 456))
+        self.about_algorithm.setObjectName("about_algorithm")
+        self.tab.addTab(self.main_about_algorithm, "")
+        self.main_about_program = QtWidgets.QWidget()
+        self.main_about_program.setObjectName("main_about_program")
+        self.about_program = QtWidgets.QTextBrowser(self.main_about_program)
+        self.about_program.setGeometry(QtCore.QRect(0, 0, 636, 456))
+        self.about_program.setMinimumSize(QtCore.QSize(636, 456))
+        self.about_program.setMaximumSize(QtCore.QSize(636, 456))
+        self.about_program.setObjectName("about_program")
+        self.tab.addTab(self.main_about_program, "")
+        self.main_about_author = QtWidgets.QWidget()
+        self.main_about_author.setObjectName("main_about_author")
+        self.about_author = QtWidgets.QTextBrowser(self.main_about_author)
+        self.about_author.setGeometry(QtCore.QRect(0, 0, 636, 456))
+        self.about_author.setMinimumSize(QtCore.QSize(636, 456))
+        self.about_author.setMaximumSize(QtCore.QSize(636, 456))
+        self.about_author.setObjectName("about_author")
+        self.tab.addTab(self.main_about_author, "")
+        self.main_about_license = QtWidgets.QWidget()
+        self.main_about_license.setObjectName("main_about_license")
+        self.about_license = QtWidgets.QTextBrowser(self.main_about_license)
+        self.about_license.setGeometry(QtCore.QRect(0, 0, 636, 456))
+        self.about_license.setMinimumSize(QtCore.QSize(636, 456))
+        self.about_license.setMaximumSize(QtCore.QSize(636, 456))
+        self.about_license.setObjectName("about_license")
+        self.tab.addTab(self.main_about_license, "")
+        MainWindow.setCentralWidget(self.centralwidget)
+
+        self.retranslateUi(MainWindow)
+        self.tab.setCurrentIndex(0)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def retranslateUi(self, MainWindow):
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", "Граф :: Головне меню"))
+        self.main_generate.setText(_translate("MainWindow", "Генерувати матрицю"))
+        self.size.setText(_translate("MainWindow", "3"))
+        self.label.setText(_translate("MainWindow", "Розмір матриці NxN"))
+        self.tab.setTabText(self.tab.indexOf(self.main_index), _translate("MainWindow", "Головна"))
+        self.tab.setTabText(self.tab.indexOf(self.main_about_algorithm), _translate("MainWindow", "Про алгоритм"))
+        self.tab.setTabText(self.tab.indexOf(self.main_about_program), _translate("MainWindow", "Про програму"))
+        self.tab.setTabText(self.tab.indexOf(self.main_about_author), _translate("MainWindow", "Автор"))
+        self.tab.setTabText(self.tab.indexOf(self.main_about_license), _translate("MainWindow", "Ліцензія"))
+
