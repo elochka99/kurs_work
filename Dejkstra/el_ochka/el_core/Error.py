@@ -1,7 +1,11 @@
-import sys, os
+mport sys, os
 sys.path.append(os.path.abspath('../'))
 from PyQt5 import QtWidgets, QtGui
 def HandleError(title, text="", informativetext="", detalis="", icon=""):
+	"""
+	This method is used to send pop-ups to the user, it can be both 
+	errors and warnings, or information about success.
+	"""
 	if icon == "Information":
 		icon = QtWidgets.QMessageBox.Information
 	elif icon == "Warning":
