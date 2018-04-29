@@ -297,6 +297,10 @@ class Draw(object):
         for y in range(graph.height):
             tarray = []
             for x in range(graph.width):
-                tarray.append("{}{}".format(' ' * width, Draw.tile(graph, (x, y), style, width)))
+                if x == 0:
+                    tab = ''
+                else:
+                    tab = '\t'
+                tarray.append("{}{}".format(tab * width, Draw.tile(graph, (x, y), style, width)))
             array.append(tarray)
         return array
