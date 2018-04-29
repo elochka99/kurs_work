@@ -3,10 +3,19 @@ sys.path.append(os.path.abspath('../'))
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
 from el_lang.lang import Lang
 from el_core.Error import HandleError
-from el_core.algorithms import Dijkstra
+from el_core.algorithms import Dijkstra, Draw, Astar, GridWithWeights
 
 class Ui_Dijkstra(QtWidgets.QDialog):
+    """
+    The class that is responsible for the window of 
+    the operation of the algorithm of the action
+    """
     def __init__(self):
+        """
+        Initializes the graphics file, creates the 
+        necessary components, and causes the 
+        connectors to buttons and strings...
+        """
         self.__windowsLoadet = False
         super().__init__()
         uic.loadUi('el_ui/dijkstra.ui', self)
@@ -20,6 +29,9 @@ class Ui_Dijkstra(QtWidgets.QDialog):
         self.__go = False
 
     def _handlesetlanguage(self):
+        """
+        The method sets the language for the elements
+        """
         self.setWindowTitle(Lang().language['dijkstra_main'])
         self.dijkstra_l_number.setText(Lang().language['dijkstra_l_number'])
         self.dijkstra_l_m_number.setText(Lang().language['dijkstra_l_m_number'])
@@ -30,7 +42,12 @@ class Ui_Dijkstra(QtWidgets.QDialog):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), Lang().language['dijkstra_tab_2'])
 
     def _handlesetconnections(self):
+        """
+        The method establishes a connection for 
+        buttons, edits, and class methods
+        """
         self.dijkstra_go.setEnabled(False)
+        self.dijkstra_connectors_table.setEnabled(False)
         self.dijkstra_connectors_table.cellChanged.connect(self._handleTableChange)
         self.dijkstra_generated.clicked.connect(self._handlegenerate)
         self.dijkstra_i_number.textChanged.connect(self._handleonlyintvalue)
@@ -39,6 +56,11 @@ class Ui_Dijkstra(QtWidgets.QDialog):
         self.dijkstra_go.clicked.connect(self._handleGo)
 
     def _handleonlyintvalue(self):
+        """
+        The method checks whether 
+        integer-variable variables are where 
+        it is needed
+        """
         if not self.__windowsLoadet:
             return
         try:
@@ -60,6 +82,11 @@ class Ui_Dijkstra(QtWidgets.QDialog):
         self.dijkstra_go.setEnabled(False)
 
     def _handleTableChange(self, row, column):
+        """
+        The method is called when the parameter 
+        changes in the table in the column, 
+        and checks the data
+        """
         try:
             if column == 2:
                 float(self.dijkstra_connectors_table.item(row, column).text())
@@ -70,7 +97,14 @@ class Ui_Dijkstra(QtWidgets.QDialog):
         except ValueError:
             self.dijkstra_connectors_table.item(row, column).setText("1")
 
+    @QtCore.pyqtSlot()
     def _handlegenerate(self):
+        """
+        The method invoked when a button is 
+        pressed to generate, and, by the given 
+        parameters, generates a table for using 
+        the algorithm.
+        """
         if len(self.dijkstra_i_number.text()) == 0 or len(self.dijkstra_i_m_number.text()) == 0 or len(self.dijkstra_i_start.text()) == 0:
             HandleError(Lang().language['dijkstra_error'], Lang().language['dijkstra_error_no_all_data'], Lang().language['dijkstra_error_no_all_data_detalis'], '')
         else:
@@ -88,7 +122,16 @@ class Ui_Dijkstra(QtWidgets.QDialog):
             self.dijkstra_connectors_table.setEnabled(True)
             self.dijkstra_go.setEnabled(True)
 
+    @QtCore.pyqtSlot()
     def _handleGo(self):
+        """
+        The method is called when the button is 
+        pressed forward, and it starts the 
+        algorithm of the Dijkstra, calculates 
+        everything and sends the data to the log, 
+        and then changes the tab's position to 
+        the log page.
+        """
         array = []
         error_data = "({}, {}), "
         error_message = ""
@@ -134,26 +177,198 @@ class Ui_Dijkstra(QtWidgets.QDialog):
                 self.dijkstra_log.appendPlainText(str(i + 1) + ": " + to_return)
             self.tabWidget.setCurrentIndex(1)
 
+
 class Ui_Astar(QtWidgets.QDialog):
+    """
+    The class that is responsible for the window of 
+    the operation of the algorithm of the action
+    """
     def __init__(self):
         super().__init__()
+        self.__windowsLoadet = False
         uic.loadUi('el_ui/astar.ui', self)
         self.setWindowIcon(QtGui.QIcon('el_images/main.png'))
         self._handlesetlanguage()
+        self._handlesetconnections()
+        self.__windowsLoadet = True
     
     def _handlesetlanguage(self):
+        """
+        Initializes the graphics file, creates the 
+        necessary components, and causes the 
+        connectors to buttons and strings...
+        """
         self.setWindowTitle(Lang().language['astar_main'])
         self.astar_row_text.setText(Lang().language['astar_row_text'])
         self.astar_column_text.setText(Lang().language['astar_column_text'])
         self.astar_start_text.setText(Lang().language['astar_start_text'])
         self.astar_end_text.setText(Lang().language['astar_end_text'])
         self.astar_info_text.setText(Lang().language['astar_info_text'])
-        self.astar_generate.setText(Lang().language['astar_generate'])
+        self.astar_generated.setText(Lang().language['astar_generate'])
         self.astar_go.setText(Lang().language['astar_go'])
-        
+
+    def _handlesetconnections(self):
+        """
+        The method establishes a connection for 
+        buttons, edits, and class methods and set
+        base value to the text fields
+        """
+        self.astar_wallsandweights.cellChanged.connect(self._handleTableChange)
+        self.astar_row.textChanged.connect(self._handleonlyintvalue)
+        self.astar_column.textChanged.connect(self._handleonlyintvalue)
+        self.astar_start_x.textChanged.connect(self._handleonlyintvalue)
+        self.astar_start_y.textChanged.connect(self._handleonlyintvalue)
+        self.astar_end_x.textChanged.connect(self._handleonlyintvalue)
+        self.astar_end_y.textChanged.connect(self._handleonlyintvalue)
+        self.astar_generated.clicked.connect(self._handlegenerate)
+        self.astar_go.clicked.connect(self._handleGo)
+
+        self.astar_row.setText('0')
+        self.astar_column.setText('0')
+        self.astar_start_x.setText('0')
+        self.astar_start_y.setText('0')
+        self.astar_end_x.setText('0')
+        self.astar_end_y.setText('0')
+        self.astar_wallsandweights.setEnabled(False)
+        self.astar_go.setEnabled(False)
+
+
+    def _handleonlyintvalue(self):
+        """
+        The method checks whether 
+        integer-variable variables are where 
+        it is needed
+        """
+        if not self.__windowsLoadet:
+            return
+        try:
+            int(self.astar_row.text())
+        except ValueError:
+            self.astar_row.setText('0')
+            HandleError(Lang().language['astar_error'], Lang().language['astar_row_text'] + ' ' + Lang().language['astar_error_data_not_int'], '', '')
+
+        try:
+            int(self.astar_column.text())
+        except ValueError:
+            self.astar_column.setText('0')
+            HandleError(Lang().language['astar_error'], Lang().language['astar_column_text'] + ' ' + Lang().language['astar_error_data_not_int'], '', '')
+
+        try:
+            if not 1 <= int(self.astar_start_x.text()) <= int(self.astar_column.text()) and int(self.astar_column.text()) != 0:
+                self.astar_start_x.setText('1')
+        except ValueError:
+            self.astar_start_x.setText('1')
+            HandleError(Lang().language['astar_error'], Lang().language['astar_start_text'] + ' ' + Lang().language['astar_error_data_not_int'], '', '')
+
+        try:
+            if not 1 <= int(self.astar_start_y.text()) <= int(self.astar_row.text()) and int(self.astar_row.text()) != 0:
+                self.astar_start_y.setText('1')
+        except ValueError:
+            self.astar_start_y.setText('1')
+            HandleError(Lang().language['astar_error'], Lang().language['astar_start_text'] + ' ' + Lang().language['astar_error_data_not_int'], '', '')
+
+        try:
+            if not 1 <= int(self.astar_end_x.text()) <= int(self.astar_column.text()) and int(self.astar_column.text()) != 0:
+                self.astar_end_x.setText('1')
+        except ValueError:
+            self.astar_end_x.setText('1')
+            HandleError(Lang().language['astar_error'], Lang().language['astar_end_text'] + ' ' + Lang().language['astar_error_data_not_int'], '', '')
+
+        try:
+            if not 1 <= int(self.astar_end_y.text()) <= int(self.astar_row.text()) and int(self.astar_row.text()) != 0:
+                self.astar_end_y.setText('1')
+        except ValueError:
+            self.astar_end_y.setText('1')
+            HandleError(Lang().language['astar_error'], Lang().language['astar_end_text'] + ' ' + Lang().language['astar_error_data_not_int'], '', '')
+        self.astar_wallsandweights.setEnabled(False)
+        self.astar_go.setEnabled(False)
+
+    def _handleTableChange(self, row, column):
+        """
+        The method is called when the parameter 
+        changes in the table in the column, 
+        and checks the data
+        """
+        try:
+            if self.astar_wallsandweights.item(row, column).text() == '#':
+                pass
+            else:
+                int(self.astar_wallsandweights.item(row, column).text())
+        except ValueError:
+            self.astar_wallsandweights.item(row, column).setText("0")
+
+    @QtCore.pyqtSlot()
+    def _handlegenerate(self):
+        """
+        The method invoked when a button is 
+        pressed to generate, and, by the given 
+        parameters, generates a table for using 
+        the algorithm.
+        """
+        self.astar_wallsandweights.setColumnCount(int(self.astar_column.text()))
+        self.astar_wallsandweights.setRowCount(int(self.astar_row.text()))
+        self.astar_wallsandweights.resizeColumnsToContents()
+        self.astar_wallsandweights.setEnabled(True)
+        self.astar_go.setEnabled(True)
+
+    @QtCore.pyqtSlot()
+    def _handleGo(self):
+        """
+        The method is called when the button is 
+        pressed forward, and it starts the 
+        algorithm of the Astar, calculates 
+        everything and sends the data to the log, 
+        and then changes the tab's position to 
+        the log page.
+        """
+        walls = []
+        weights = {}
+        self.astar_log.clear()
+        self.astar_log.appendPlainText(Lang().language['astar_input_data'])
+        for row in range(self.astar_wallsandweights.rowCount()):
+            temp = []
+            for column in range(self.astar_wallsandweights.columnCount()):
+                if self.astar_wallsandweights.item(row, column) is None:
+                    walls.append((row, column))
+                    temp.append('#')
+                else:
+                    if self.astar_wallsandweights.item(row, column).text() == '#':
+                        walls.append((row, column))
+                        temp.append('#')
+                    else:
+                        weights[(row, column)] = int(self.astar_wallsandweights.item(row, column).text())
+                        temp.append(self.astar_wallsandweights.item(row, column).text())
+            self.astar_log.appendPlainText('\t'.join(str(x) for x in temp))
+
+        data = GridWithWeights(self.astar_wallsandweights.columnCount(), self.astar_wallsandweights.rowCount())
+        data.walls = walls
+        data.weights = weights
+        start = (int(self.astar_start_x.text()) - 1, int(self.astar_start_y.text()) - 1)
+        goal = (int(self.astar_end_x.text()) - 1, int(self.astar_end_y.text()) - 1)
+        astar = Astar()
+        came_from, cost_so_far = astar.Search(data, start, goal)
+        output_str = Draw().grid(data, width=1, point_to=came_from, start=start, goal=goal)
+        output_num = Draw().grid(data, width=1, number=cost_so_far, start=start, goal=goal)
+        self.astar_log.appendPlainText(Lang().language['astar_paths'])
+        for i in range(len(output_str)):
+            self.astar_log.appendPlainText(''.join(str(x) for x in output_str[i]))
+
+        self.astar_log.appendPlainText(Lang().language['astar_paths_number'])
+        for i in range(len(output_num)):
+            self.astar_log.appendPlainText(''.join(str(x) for x in output_num[i]))
+        self.tabWidget.setCurrentIndex(1)
+
 
 class Ui_MainWindow(QtWidgets.QMainWindow):
+    """
+    The class responsible for the main window of the program
+    """
     def __init__(self):
+        """
+        The class that is responsible for the Main Widnow
+        load design from the file main.ui and set based icon
+        from the buttons
+        """
         super().__init__()
         uic.loadUi('el_ui/main.ui', self)
         self.setWindowIcon(QtGui.QIcon('el_images/main.png'))
@@ -163,25 +378,48 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.__handleConnections()
 
     def __handleConnections(self):
+        """
+        The method establishes a connection for 
+        buttons, edits, and class methods
+        """
         self.language_ua.clicked.connect(self._handleSetLangUA)
         self.language_us.clicked.connect(self._handleSetLangUS)
         self.main_start.clicked.connect(self._handleGo)
 
     def _handleSetLangUA(self):
+        """
+        The method use if user click from button
+        lang ua, and translate program from lang
+        ukrainian
+        """
         Lang().language = 'ua'
         self._handlesetlang()
 
     def _handleSetLangUS(self):
+        """
+        The method use if user click from button
+        lang us, and translate program from lang
+        english
+        """
         Lang().language = 'us'
         self._handlesetlang()
 
     def _handlesetlang(self):
+        """
+        Method change text from main widnow 
+        depending on the language
+        """
         self.main_radio_dijkstra.setText(Lang().language['main_radio_dijkstra'])
         self.main_radio_astar.setText(Lang().language['main_radio_astar'])
         self.main_start.setText(Lang().language['main_start'])
         self.setWindowTitle(Lang().language['main'])
 
     def _handleGo(self):
+        """
+        The method is called when the user 
+        presses the forward button and 
+        starts the selected algorithm
+        """
         if self.main_radio_astar.isChecked():
             view = Ui_Astar()
             view.exec_()
