@@ -14,7 +14,7 @@ class UA:
     lang['dijkstra_main'] = 'Дейкстра'
     lang['dijkstra_tab'] = 'Головна'
     lang['dijkstra_tab_2'] = 'Результат роботи'
-    lang['dijkstra_l_number'] = 'Кількість точок:'
+    lang['dijkstra_l_number'] = 'Кількість вершин:'
     lang['dijkstra_l_m_number'] = 'Кількість зєднань:'
     lang['dijkstra_l_start'] = 'Початкова точка:'
     lang['dijkstra_generated'] = 'Генерувати'
@@ -23,9 +23,9 @@ class UA:
     lang['dijkstra_row'] = 'Вершина {}'
     lang['dijkstra_summ'] = 'Сума'
 
+    lang['dijkstra_error'] = 'Помилка'
     lang['dijkstra_error_merge_column'] = 'Дані не в межах від 1 до {}'
     lang['dijkstra_error_table'] = 'Не всі дані занесено в таблицю! Нижче поля!'
-    lang['dijkstra_error'] = 'Помилка'
     lang['dijkstra_error_no_all_data'] = 'Ви заповнили не всі дані'
     lang['dijkstra_error_no_all_data_detalis'] = "Поля: кількість точок, кількість з'єднань, початкова точка мають бути заповнені!"
     lang['dijkstra_error_data_not_int'] = 'Дані не цілочисельного типу'
@@ -43,6 +43,14 @@ class UA:
     lang['astar_info_text'] = 'Введіть дані, тільки числа і символ # як перегорода або залиште пустим'
     lang['astar_generate'] = 'Генерувати'
     lang['astar_go'] = 'Виконати'
+
+    lang['astar_error'] = 'Помилка'
+    lang['astar_error_data_not_int'] = 'Дані не цілочисельного типу'
+    lang['astar_error_no_all_data'] = 'Ви заповнили не всі дані'
+    lang['astar_error_no_all_data_detalis'] = 'Поля: Рядків, Стовпців, Точка початку (X, Y), Точка кінця (X, Y) мають бути заповнені'
+    lang['astar_input_data'] = 'Вхідні дані:'
+    lang['astar_paths'] = 'Шляхи обходу:'
+    lang['astar_paths_number'] = 'Шляхи обходу з сумою по числам'
     return lang
 
 class US:
@@ -59,7 +67,7 @@ class US:
     lang['dijkstra_tab'] = 'Home'
     lang['dijkstra_tab_2'] = 'The result of work'
     lang['dijkstra_l_number'] = 'Number of points:'
-    lang['dijkstra_l_m_number'] = 'Number of connections:'
+    lang['dijkstra_l_m_number'] = 'Number of vertices:'
     lang['dijkstra_l_start'] = 'Starting point:'
     lang['dijkstra_generated'] = 'Generate'
     lang['dijkstra_go'] = 'Perform'
@@ -87,6 +95,14 @@ class US:
     lang['astar_info_text'] = 'Enter the data, only the numbers and the # character as redundant or leave empty'
     lang['astar_generate'] = 'Generate'
     lang['astar_go'] = 'Perform'
+
+    lang['astar_error'] = 'Error'
+    lang['astar_error_data_not_int'] = 'Data is not an integer type'
+    lang['astar_error_no_all_data'] = 'You did not fill out all data'
+    lang['astar_error_no_all_data_detalis'] = 'Fields: Rows, Columns, Start Point (X, Y), End Point (X, Y) must be filled'
+    lang['astar_input_data'] = 'Incoming data:'
+    lang['astar_paths'] = 'Bypass ways:'
+    lang['astar_paths_number'] = 'Ways to bypass the sum by numbers:'
     return lang
 
 @SingleTon
