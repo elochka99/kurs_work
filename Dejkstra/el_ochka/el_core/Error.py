@@ -1,4 +1,4 @@
-mport sys, os
+import sys, os
 sys.path.append(os.path.abspath('../'))
 from PyQt5 import QtWidgets, QtGui
 def HandleError(title, text="", informativetext="", detalis="", icon=""):
