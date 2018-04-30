@@ -74,7 +74,8 @@ class Ui_Dijkstra(QtWidgets.QDialog):
             self.dijkstra_i_m_number.setText('0')
             HandleError(Lang().language['dijkstra_error'], Lang().language['dijkstra_l_m_number'] + ' ' + Lang().language['dijkstra_error_data_not_int'], '', '')
         try:
-            int(self.dijkstra_i_start.text())
+            if not 0 <= int(self.dijkstra_i_start.text()) <= int(self.dijkstra_i_number.text()) and self.dijkstra_i_start.text() != '0':
+            	self.dijkstra_i_start.setText('1')
         except ValueError:
             self.dijkstra_i_start.setText('0')
             HandleError(Lang().language['dijkstra_error'], Lang().language['dijkstra_l_start'] + ' ' + Lang().language['dijkstra_error_data_not_int'], '', '')
@@ -159,23 +160,27 @@ class Ui_Dijkstra(QtWidgets.QDialog):
             self.dijkstra_log.clear()
             HandleError(Lang().language['dijkstra_error'], Lang().language['dijkstra_error_table'], error_message, '')
         else:
-            dijkstra = Dijkstra()
-            dijkstra.algorithm = {
-            'n': int(self.dijkstra_i_number.text()),
-            'm': int(self.dijkstra_i_m_number.text()),
-            'start': int(self.dijkstra_i_start.text()),
-            'array': array
-            }
-            data = dijkstra.algorithm
-            
-            self.dijkstra_log.appendPlainText(Lang().language['dijkstra_log_output'])
-            self.dijkstra_log.appendPlainText(Lang().language['dijkstra_log_passage'])
-            self.dijkstra_log.appendPlainText(', '.join(str(i) for i in data['bytes']))
-            self.dijkstra_log.appendPlainText(Lang().language['dijkstra_log_best_ways'].format(self.dijkstra_i_start.text()))
-            for i in range(len(data['path'])):
-                to_return = ' -> '.join(str(x) for x in data['path'][i + 1])
-                self.dijkstra_log.appendPlainText(str(i + 1) + ": " + to_return)
-            self.tabWidget.setCurrentIndex(1)
+        	try:
+	            dijkstra = Dijkstra()
+	            dijkstra.algorithm = {
+	            'n': int(self.dijkstra_i_number.text()),
+	            'm': int(self.dijkstra_i_m_number.text()),
+	            'start': int(self.dijkstra_i_start.text()),
+	            'array': array
+	            }
+	            data = dijkstra.algorithm
+	            
+	            self.dijkstra_log.appendPlainText(Lang().language['dijkstra_log_output'])
+	            self.dijkstra_log.appendPlainText(Lang().language['dijkstra_log_passage'])
+	            self.dijkstra_log.appendPlainText(', '.join(str(i) for i in data['bytes']))
+	            self.dijkstra_log.appendPlainText(Lang().language['dijkstra_log_best_ways'].format(self.dijkstra_i_start.text()))
+	            for i in range(len(data['path'])):
+	                to_return = ' -> '.join(str(x) for x in data['path'][i + 1])
+	                self.dijkstra_log.appendPlainText(str(i + 1) + ": " + to_return)
+	            self.tabWidget.setCurrentIndex(1)
+	        except MemoryError:
+	        	self.dijkstra_log.clear()
+	        	HandleError(Lang().language['dijkstra_error'], Lang().language['MemoryError'], '', '')
 
 
 class Ui_Astar(QtWidgets.QDialog):
