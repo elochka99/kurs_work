@@ -8,7 +8,7 @@ from el_core.algorithms import Dijkstra, Draw, Astar, GridWithWeights
 class Ui_Dijkstra(QtWidgets.QDialog):
     """
     The class that is responsible for the window of 
-    the operation of the algorithm of the action
+    the operation of the algorithm Dijkstra
     """
     def __init__(self):
         """
@@ -18,6 +18,7 @@ class Ui_Dijkstra(QtWidgets.QDialog):
         """
         self.__windowsLoadet = False
         super().__init__()
+        self.setWindowFlags(QtCore.Qt.WindowFlags() | QtCore.Qt.WindowCloseButtonHint)
         uic.loadUi('el_ui/dijkstra.ui', self)
         self.setWindowIcon(QtGui.QIcon('el_images/main.png'))
         self._handlesetlanguage()
@@ -186,11 +187,12 @@ class Ui_Dijkstra(QtWidgets.QDialog):
 class Ui_Astar(QtWidgets.QDialog):
     """
     The class that is responsible for the window of 
-    the operation of the algorithm of the action
+    the operation of the algorithm a star
     """
     def __init__(self):
         super().__init__()
         self.__windowsLoadet = False
+        self.setWindowFlags(QtCore.Qt.WindowFlags() | QtCore.Qt.WindowCloseButtonHint)
         uic.loadUi('el_ui/astar.ui', self)
         self.setWindowIcon(QtGui.QIcon('el_images/main.png'))
         self._handlesetlanguage()
